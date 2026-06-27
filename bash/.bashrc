@@ -7,7 +7,7 @@ PS1=
 if [[ $SSH_CONNECTION ]] ; then
   PS1+='\u@\h'
 fi
-PS1+='\033[1;95m\]\w\033[1;34m\]$(git_branch) \033[1;95m\]>> \033[0m\]'
+PS1+='\[\033[1;95m\]\w\[\033[1;34m\]$(git_branch) \[\033[1;95m\]>> \[\033[0m\]'
 
 # global + local definitions
 # --------------------------
