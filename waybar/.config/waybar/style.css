@@ -1,0 +1,39 @@
+* {
+    font-family: "Hack", monospace;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(26, 26, 26, 0.85);
+    color: #e0e0e0;
+    border-radius: 10px;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    color: #999999;
+    background: transparent;
+    border: none;
+}
+
+#workspaces button.active {
+    color: #33ccff;
+}
+
+#workspaces button.urgent {
+    color: #ff6633;
+}
+
+#window,
+#clock,
+#pulseaudio,
+#cpu,
+#memory,
+#tray {
+    padding: 0 10px;
+}
+
+#clock {
+    font-weight: bold;
+}

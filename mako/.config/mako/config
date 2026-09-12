@@ -1,0 +1,26 @@
+# Styled to match waybar (~/.config/waybar/style.css):
+# same dark translucent background, light gray text, cyan accent,
+# Hack monospace, and 10px rounded corners.
+
+font=Hack 11
+
+background-color=#1a1a1aD9
+text-color=#e0e0e0FF
+
+border-size=2
+border-color=#33ccffFF
+border-radius=10
+
+progress-color=over #33ccffFF
+
+outer-margin=6,10,0,10
+margin=10
+padding=10
+
+anchor=top-right
+layer=top
+
+default-timeout=5000
+
+[urgency=critical]
+border-color=#ff6633FF
