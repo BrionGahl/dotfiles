@@ -1,15 +1,34 @@
 {
+    "reload_style_on_change": true,
     "layer": "top",
     "position": "top",
-    "height": 32,
-    "spacing": 4,
-    "margin-top": 6,
-    "margin-left": 10,
-    "margin-right": 10,
+    "spacing": 0,
+    "margin": "6px 10px 0 10px",
 
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
-    "modules-center": ["clock"],
-    "modules-right": ["network", "cpu", "memory", "wireplumber", "mpris", "idle_inhibitor", "tray", "custom/power"],
+    "modules-center": ["clock", "mpris"],
+    "modules-right": [
+        "tray",
+        "privacy",
+        "network",
+        "cpu",
+        "memory",
+        "custom/updates",
+        "group/audio",
+        "pulseaudio#microphone",
+        "idle_inhibitor",
+        "custom/power"
+    ],
+
+    "group/audio": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 400,
+            "children-class": "audio",
+            "transition-left-to-right": false
+        },
+        "modules": ["pulseaudio", "pulseaudio/slider"]
+    },
 
     "hyprland/workspaces": {
         "on-click": "activate"
@@ -23,62 +42,129 @@
     "clock": {
         "format": "{:%I:%M %p}",
         "format-alt": "{:%A, %d %B %Y}",
-        "tooltip-format": "{:%Y-%m-%d %I:%M %p}"
-    },
-
-    "wireplumber": {
-        "format": "Vol {volume}%",
-        "format-muted": "Muted",
-        "on-click": "pavucontrol"
+        "tooltip-format": "<tt><small>{calendar}</small></tt>"
     },
 
     "mpris": {
-        "format": "{status_icon} {title}",
-        "format-paused": "{status_icon} {title}",
+        "format": "<span font='Material Symbols Outlined'>{status_icon}</span> {title}",
+        "format-paused": "<span font='Material Symbols Outlined'>{status_icon}</span> {title}",
         "status-icons": {
-            "playing": "▶",
-            "paused": "⏸",
-            "stopped": "⏹"
+            "playing": "play_arrow",
+            "paused": "pause",
+            "stopped": "stop"
         },
         "max-length": 30,
         "tooltip-format": "{player}: {artist} - {title}"
     },
 
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    },
+
+    "privacy": {
+        "icon-spacing": 8,
+        "icon-size": 14,
+        "transition-duration": 250,
+        "modules": [
+            {
+                "type": "screenshare",
+                "tooltip": true,
+                "tooltip-icon-size": 24
+            }
+        ]
+    },
+
     "network": {
-        "format-wifi": "{essid} {bandwidthDownBytes}▼ {bandwidthUpBytes}▲",
-        "format-ethernet": "{bandwidthDownBytes}▼ {bandwidthUpBytes}▲",
-        "format-disconnected": "Disconnected ⚠",
+        "format-icons": {
+            "wifi": [
+                "network_wifi_1_bar",
+                "network_wifi_2_bar",
+                "network_wifi_3_bar",
+                "signal_wifi_4_bar"
+            ],
+            "ethernet": "lan",
+            "disabled": "signal_wifi_off",
+            "disconnected": "signal_wifi_bad"
+        },
+        "format-wifi": "<span font='Material Symbols Outlined'>{icon}</span> {essid} {bandwidthDownBytes}▼ {bandwidthUpBytes}▲",
+        "format-ethernet": "<span font='Material Symbols Outlined'>{icon}</span> {bandwidthDownBytes}▼ {bandwidthUpBytes}▲",
+        "format-disconnected": "<span font='Material Symbols Outlined'>{icon}</span> Disconnected",
         "tooltip-format-wifi": "{essid} ({signalStrength}%)  {ipaddr}/{cidr}",
         "tooltip-format-ethernet": "{ifname}  {ipaddr}/{cidr}",
         "interval": 3
     },
 
     "cpu": {
-        "format": "CPU {usage}%",
-        "interval": 5
+        "format": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7} {usage}%",
+        "format-icons": [
+            "<span color='#50fa7b'>▁</span>", // green
+            "<span color='#8be9fd'>▂</span>", // cyan
+            "<span color='#f8f8f2'>▃</span>", // foreground
+            "<span color='#f8f8f2'>▄</span>", // foreground
+            "<span color='#f1fa8c'>▅</span>", // yellow
+            "<span color='#f1fa8c'>▆</span>", // yellow
+            "<span color='#ffb86c'>▇</span>", // orange
+            "<span color='#ff5555'>█</span>" // red
+        ],
+        "interval": 2,
+        "tooltip": true,
+        "tooltip-format": "CPU Frequency: {avg_frequency} GHz"
     },
 
     "memory": {
-        "format": "RAM {percentage}% / Swap {swapPercentage}%",
-        "interval": 5
+        "format": "<span font='Material Symbols Outlined'>memory</span> {percentage}% / {swapPercentage}%",
+        "interval": 5,
+        "tooltip-format": "RAM {used:0.1f}GiB / {total:0.1f}GiB\nSwap {swapUsed:0.1f}GiB / {swapTotal:0.1f}GiB"
+    },
+
+    "custom/updates": {
+        "format": "<span font='Material Symbols Outlined'>package</span>",
+        "escape": true,
+        "return-type": "json",
+        "exec": "waybar-dnf-updates",
+        "interval": 1800,
+        "on-click": "alacritty -e sudo dnf upgrade"
+    },
+
+    "pulseaudio": {
+        "format": "<span font='Material Symbols Outlined'>{icon}</span> {volume}%",
+        "format-muted": "<span font='Material Symbols Outlined'>volume_off</span> Muted",
+        "format-icons": {
+            "headphone": "headphones",
+            "default": ["volume_mute", "volume_down", "volume_up"]
+        },
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pavucontrol",
+        "tooltip-format": "Volume: {volume}%\n{desc}"
+    },
+
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": "<span font='Material Symbols Outlined'>mic</span>",
+        "format-source-muted": "<span font='Material Symbols Outlined'>mic_off</span>",
+        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        "tooltip": false
     },
 
     "idle_inhibitor": {
-        "format": "{icon}",
+        "format": "<span font='Material Symbols Outlined'>{icon}</span>",
         "format-icons": {
-            "activated": "Awake",
-            "deactivated": "Idle"
+            "activated": "visibility",
+            "deactivated": "visibility_off"
         },
         "tooltip-format-activated": "Idle inhibitor on -- screen won't lock or sleep",
         "tooltip-format-deactivated": "Idle inhibitor off -- normal lock/sleep timers apply"
     },
 
-    "tray": {
-        "spacing": 8
-    },
-
     "custom/power": {
-        "format": "⏻",
+        "format": "<span font='Material Symbols Outlined'>power_settings_new</span>",
         "tooltip-format": "Power menu (lock / logout / shutdown / reboot)",
         "on-click": "uwsm app -- powermenu"
     }

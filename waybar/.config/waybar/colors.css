@@ -1,0 +1,25 @@
+/* Dracula palette, matching alacritty/.alacritty.toml colors.primary/normal/bright.
+ * Referenced from style.css via `@import "./colors.css";` and @color* / @foreground
+ * etc. GTK named-color lookups. */
+
+@define-color cursor #f8f8f2;
+@define-color background #282a36;
+@define-color foreground #f8f8f2;
+@define-color selection #44475a;
+
+@define-color color0  #21222c; /* normal.black */
+@define-color color1  #ff5555; /* normal.red */
+@define-color color2  #50fa7b; /* normal.green */
+@define-color color3  #f1fa8c; /* normal.yellow */
+@define-color color4  #bd93f9; /* normal.blue */
+@define-color color5  #ff79c6; /* normal.magenta */
+@define-color color6  #8be9fd; /* normal.cyan */
+@define-color color7  #f8f8f2; /* normal.white */
+@define-color color8  #6272a4; /* bright.black */
+@define-color color9  #ff6e6e; /* bright.red */
+@define-color color10 #69ff94; /* bright.green */
+@define-color color11 #ffffa5; /* bright.yellow */
+@define-color color12 #d6acff; /* bright.blue */
+@define-color color13 #ff92df; /* bright.magenta */
+@define-color color14 #a4ffff; /* bright.cyan */
+@define-color color15 #ffffff; /* bright.white */

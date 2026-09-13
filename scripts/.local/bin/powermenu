@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Compact power menu: a small wofi dmenu list instead of wlogout's full-screen
+# overlay. Options run the same systemd/logind commands wlogout used.
+set -euo pipefail
+
+options="Lock\nLogout\nSuspend\nHibernate\nReboot\nShutdown"
+menu_width=200
+menu_height=210
+
+# Open the menu with its top-right corner at the cursor (grows left/down from
+# the pointer), on whichever monitor the cursor is currently on -- wofi has no
+# "at mouse" mode of its own, so this reads Hyprland's cursor position and
+# converts it to the offset wofi expects, relative to that monitor's
+# top-left corner.
+cursor_pos=$(hyprctl cursorpos)
+cursor_x=${cursor_pos%%,*}
+cursor_y=${cursor_pos##*, }
+
+monitor=$(hyprctl monitors -j | jq -r --argjson cx "$cursor_x" --argjson cy "$cursor_y" \
+    '.[] | select(.x <= $cx and $cx < (.x + .width) and .y <= $cy and $cy < (.y + .height))')
+
+monitor_name=$(jq -r '.name' <<< "$monitor")
+y_nudge=30
+
+x_offset=$(( cursor_x - $(jq -r '.x' <<< "$monitor") - menu_width ))
+y_offset=$(( cursor_y - $(jq -r '.y' <<< "$monitor") - y_nudge ))
+
+selected=$(printf "%b" "$options" | wofi --dmenu --prompt "Power" --width "$menu_width" --height "$menu_height" \
+    --monitor "$monitor_name" --location top_left --xoffset "$x_offset" --yoffset "$y_offset" \
+    --hide-search --cache-file /dev/null)
+
+case "$selected" in
+    Lock)      loginctl lock-session ;;
+    Logout)    loginctl terminate-user "$USER" ;;
+    Suspend)   systemctl suspend ;;
+    Hibernate) systemctl hibernate ;;
+    Reboot)    systemctl reboot ;;
+    Shutdown)  systemctl poweroff ;;
+    *)         exit 0 ;;
+esac

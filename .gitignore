@@ -22,5 +22,10 @@ zsh/.zsh_history
 *.pem
 
 # --- Local Overrides ---
-# Sometimes you want a .bashrc.local for one specific machine
+# Sometimes you want a .bashrc.local for one specific machine.
+# NOTE: bare "*.local" also matches a directory literally named ".local",
+# which swallows every stow package's "<pkg>/.local/..." tree (bin/, share/
+# fonts/, etc). The negations below carve those back out.
 *.local
+!**/.local/
+!**/.local/**

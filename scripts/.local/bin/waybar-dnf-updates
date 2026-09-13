@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# JSON source for waybar's custom/updates module. `dnf check-update` exits
+# 100 when updates are pending and 1 on error, so it can't run under `set -e`.
+set -uo pipefail
+
+output=$(dnf check-update --quiet 2>/dev/null) || true
+count=$(grep -cE '^\S+\.\S+\s+\S+\s+\S+$' <<< "$output" || true)
+
+if [ "$count" -eq 0 ]; then
+    class="green"
+    tooltip="System up to date"
+elif [ "$count" -ge 20 ]; then
+    class="red"
+    tooltip="$count updates available"
+elif [ "$count" -ge 5 ]; then
+    class="yellow"
+    tooltip="$count updates available"
+else
+    class="green"
+    tooltip="$count updates available"
+fi
+
+printf '{"text":"%s","tooltip":"%s","class":"%s"}\n' "$count" "$tooltip" "$class"

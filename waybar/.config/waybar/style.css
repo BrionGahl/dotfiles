@@ -1,93 +1,242 @@
-/* Dracula theme, matching alacritty/.alacritty.toml colors.primary/normal/bright */
+@import "./colors.css";
 
+/* ======================= */
+/* Global Styles           */
+/* ======================= */
 * {
+    border: none;
     font-family: "monospace";
     font-size: 13px;
     font-weight: bold;
+    box-shadow: none;
     min-height: 0;
 }
 
 window#waybar {
-    background-color: rgba(40, 42, 54, 0.92); /* colors.primary.background, raised above alacritty's 0.85 to cut down how much blur shows through */
-    color: #f8f8f2; /* colors.primary.foreground */
-    border-radius: 8px; /* matches Hyprland's decoration.rounding */
+    background: transparent;
+}
+
+/* ======================= */
+/* Interactive States      */
+/* ======================= */
+#network:hover,
+#pulseaudio:hover,
+#pulseaudio.microphone:hover,
+#custom-updates:hover,
+#custom-power:hover {
+    opacity: 0.8;
+}
+
+/* ======================= */
+/* Workspace Management    */
+/* ======================= */
+#workspaces {
+    margin: 0 4px;
+    padding: 0;
+    background: rgba(40, 42, 54, 0.75); /* colors.primary.background */
+    border-radius: 10px;
 }
 
 #workspaces button {
+    color: @color8; /* bright.black */
     padding: 0 8px;
-    color: #6272a4; /* colors.bright.black */
-    background: transparent;
-    border: none;
+    margin: 3px 2px;
+    border-radius: 8px;
+    min-height: 24px;
 }
 
 #workspaces button.active {
-    color: #bd93f9; /* colors.normal.blue */
+    color: @background;
+    background: @color4; /* normal.blue */
 }
 
 #workspaces button.urgent {
-    color: #ff5555; /* colors.normal.red */
+    color: @foreground;
+    background: @color1; /* normal.red */
+    animation: blink 1s linear infinite;
 }
 
+@keyframes blink {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ======================= */
+/* System Components       */
+/* ======================= */
 #window,
 #clock,
-#wireplumber,
 #mpris,
 #network,
 #cpu,
 #memory,
+#custom-updates,
+#pulseaudio,
+#pulseaudio.microphone,
 #idle_inhibitor,
 #tray,
+#privacy,
 #custom-power {
-    padding: 0 10px;
+    background: rgba(40, 42, 54, 0.75); /* colors.primary.background */
+    color: @foreground;
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+#window {
+    color: @color8; /* bright.black */
 }
 
 #clock {
-    color: #ff79c6; /* colors.normal.magenta */
+    color: @color5; /* normal.magenta */
+    font-weight: 600;
 }
 
 #mpris {
-    color: #50fa7b; /* colors.normal.green */
+    color: @color2; /* normal.green */
 }
 
 #mpris.paused {
-    color: #6272a4; /* colors.bright.black */
+    color: @color8; /* bright.black */
 }
 
-#wireplumber {
-    color: #8be9fd; /* colors.normal.cyan */
+#mpris.stopped {
+    color: @color1; /* normal.red */
 }
 
-#wireplumber.muted {
-    color: #ff5555; /* colors.normal.red */
+/* ======================= */
+/* System Indicators       */
+/* ======================= */
+#tray {
+    margin-left: 0;
 }
 
+#privacy {
+    background: rgba(255, 85, 85, 0.15);
+}
+
+#privacy-item {
+    color: @color1; /* normal.red */
+}
+
+/* ======================= */
+/* Network                 */
+/* ======================= */
 #network {
-    color: #f1fa8c; /* colors.normal.yellow */
+    color: @color3; /* normal.yellow */
 }
 
 #network.disconnected {
-    color: #ff5555; /* colors.normal.red */
+    color: @color1; /* normal.red */
 }
 
+/* ======================= */
+/* CPU / Memory / Updates  */
+/* ======================= */
 #cpu,
 #memory {
-    color: #f8f8f2; /* colors.primary.foreground */
+    color: @foreground;
 }
 
+#custom-updates.green {
+    color: @color2; /* normal.green */
+}
+
+#custom-updates.yellow {
+    color: @color3; /* normal.yellow */
+}
+
+#custom-updates.red {
+    color: @color1; /* normal.red */
+}
+
+/* ======================= */
+/* Audio Controls          */
+/* ======================= */
+#pulseaudio {
+    color: @color6; /* normal.cyan */
+}
+
+#pulseaudio.muted {
+    color: @color1; /* normal.red */
+}
+
+#pulseaudio.microphone {
+    color: @color6; /* normal.cyan */
+}
+
+#pulseaudio.microphone.source-muted {
+    color: @color1; /* normal.red */
+}
+
+#pulseaudio-slider {
+    background: rgba(40, 42, 54, 0.75);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+#pulseaudio-slider slider {
+    min-height: 0px;
+    min-width: 0px;
+    background: transparent;
+    box-shadow: none;
+}
+
+#pulseaudio-slider trough {
+    min-height: 8px;
+    min-width: 100px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#pulseaudio-slider highlight {
+    min-width: 8px;
+    min-height: 8px;
+    border-radius: 4px;
+    background: @color4; /* normal.blue */
+}
+
+/* ======================= */
+/* Idle Inhibitor           */
+/* ======================= */
 #idle_inhibitor {
-    color: #6272a4; /* colors.bright.black */
+    color: @color8; /* bright.black */
 }
 
 #idle_inhibitor.activated {
-    color: #f1fa8c; /* colors.normal.yellow */
+    color: @color3; /* normal.yellow */
 }
 
+/* ======================= */
+/* Power Menu              */
+/* ======================= */
 #custom-power {
-    color: #ff5555; /* colors.normal.red */
+    color: @color1; /* normal.red */
 }
 
 #custom-power:hover {
-    color: #ff6e6e; /* colors.bright.red */
+    color: @color9; /* bright.red */
+}
+
+/* ======================== */
+/* Tooltip                  */
+/* ======================== */
+tooltip {
+    background: rgba(40, 42, 54, 0.92); /* colors.primary.background */
+    border-radius: 10px;
+    border: 1px solid @selection;
+}
+
+tooltip * {
+    color: @foreground;
+    text-shadow: none;
+    background: transparent;
+    margin: 2px;
 }
 
 /* Tray right-click context menu (GtkMenu via libdbusmenu-gtk3) -- it's a
@@ -95,25 +244,25 @@ window#waybar {
    application-wide CSS provider, so plain GTK menu selectors reach it too. */
 
 menu {
-    background-color: rgba(40, 42, 54, 0.92); /* colors.primary.background, matches window#waybar's raised opacity */
-    color: #f8f8f2; /* colors.primary.foreground */
+    background-color: rgba(40, 42, 54, 0.92); /* colors.primary.background */
+    color: @foreground;
     border: 1px solid #ffffff; /* matches Hyprland's general:col.active_border default */
     border-radius: 12px; /* matches Hyprland's decoration.rounding */
     padding: 4px;
 }
 
 menu separator {
-    background-color: #44475a; /* colors.selection.background */
+    background-color: @selection;
     margin: 4px 0;
 }
 
 menuitem {
     padding: 4px 10px;
     border-radius: 4px;
-    color: #f8f8f2; /* colors.primary.foreground */
+    color: @foreground;
 }
 
 menuitem:hover {
-    background-color: #44475a; /* colors.selection.background */
-    color: #bd93f9; /* colors.normal.blue */
+    background-color: @selection;
+    color: @color4; /* normal.blue */
 }
