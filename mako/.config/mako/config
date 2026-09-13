@@ -1,17 +1,19 @@
-# Styled to match waybar (~/.config/waybar/style.css):
-# same dark translucent background, light gray text, cyan accent,
-# Hack monospace, and 10px rounded corners.
+# Dracula theme, matching alacritty/.alacritty.toml and waybar/.config/waybar/style.css:
+# same background (opacity raised to 0.92 to cut down how much blur shows
+# through), foreground, monospace font, white border matching Hyprland's
+# general:col.active_border default (same as wofi/waybar menus), and rounded
+# corners matching Hyprland's decoration.rounding.
 
-font=Hack 11
+font=monospace 11
 
-background-color=#1a1a1aD9
-text-color=#e0e0e0FF
+background-color=#282a36EB
+text-color=#f8f8f2FF
 
-border-size=2
-border-color=#33ccffFF
-border-radius=10
+border-size=1
+border-color=#ffffffFF
+border-radius=12
 
-progress-color=over #33ccffFF
+progress-color=over #bd93f9FF
 
 outer-margin=6,10,0,10
 margin=10
@@ -23,4 +25,5 @@ layer=top
 default-timeout=5000
 
 [urgency=critical]
-border-color=#ff6633FF
+border-size=2
+border-color=#ff5555FF

@@ -9,7 +9,7 @@
 
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-center": ["clock"],
-    "modules-right": ["pulseaudio", "cpu", "memory", "tray"],
+    "modules-right": ["network", "cpu", "memory", "wireplumber", "mpris", "idle_inhibitor", "tray", "custom/power"],
 
     "hyprland/workspaces": {
         "on-click": "activate"
@@ -21,15 +21,36 @@
     },
 
     "clock": {
-        "format": "{:%H:%M}",
+        "format": "{:%I:%M %p}",
         "format-alt": "{:%A, %d %B %Y}",
-        "tooltip-format": "{:%Y-%m-%d %H:%M}"
+        "tooltip-format": "{:%Y-%m-%d %I:%M %p}"
     },
 
-    "pulseaudio": {
+    "wireplumber": {
         "format": "Vol {volume}%",
         "format-muted": "Muted",
         "on-click": "pavucontrol"
+    },
+
+    "mpris": {
+        "format": "{status_icon} {title}",
+        "format-paused": "{status_icon} {title}",
+        "status-icons": {
+            "playing": "▶",
+            "paused": "⏸",
+            "stopped": "⏹"
+        },
+        "max-length": 30,
+        "tooltip-format": "{player}: {artist} - {title}"
+    },
+
+    "network": {
+        "format-wifi": "{essid} {bandwidthDownBytes}▼ {bandwidthUpBytes}▲",
+        "format-ethernet": "{bandwidthDownBytes}▼ {bandwidthUpBytes}▲",
+        "format-disconnected": "Disconnected ⚠",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)  {ipaddr}/{cidr}",
+        "tooltip-format-ethernet": "{ifname}  {ipaddr}/{cidr}",
+        "interval": 3
     },
 
     "cpu": {
@@ -38,11 +59,27 @@
     },
 
     "memory": {
-        "format": "RAM {percentage}%",
+        "format": "RAM {percentage}% / Swap {swapPercentage}%",
         "interval": 5
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "Awake",
+            "deactivated": "Idle"
+        },
+        "tooltip-format-activated": "Idle inhibitor on -- screen won't lock or sleep",
+        "tooltip-format-deactivated": "Idle inhibitor off -- normal lock/sleep timers apply"
     },
 
     "tray": {
         "spacing": 8
+    },
+
+    "custom/power": {
+        "format": "⏻",
+        "tooltip-format": "Power menu (lock / logout / shutdown / reboot)",
+        "on-click": "uwsm app -- powermenu"
     }
 }

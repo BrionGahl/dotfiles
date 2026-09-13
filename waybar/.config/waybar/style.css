@@ -1,39 +1,119 @@
+/* Dracula theme, matching alacritty/.alacritty.toml colors.primary/normal/bright */
+
 * {
-    font-family: "Hack", monospace;
+    font-family: "monospace";
     font-size: 13px;
+    font-weight: bold;
     min-height: 0;
 }
 
 window#waybar {
-    background-color: rgba(26, 26, 26, 0.85);
-    color: #e0e0e0;
-    border-radius: 10px;
+    background-color: rgba(40, 42, 54, 0.92); /* colors.primary.background, raised above alacritty's 0.85 to cut down how much blur shows through */
+    color: #f8f8f2; /* colors.primary.foreground */
+    border-radius: 8px; /* matches Hyprland's decoration.rounding */
 }
 
 #workspaces button {
     padding: 0 8px;
-    color: #999999;
+    color: #6272a4; /* colors.bright.black */
     background: transparent;
     border: none;
 }
 
 #workspaces button.active {
-    color: #33ccff;
+    color: #bd93f9; /* colors.normal.blue */
 }
 
 #workspaces button.urgent {
-    color: #ff6633;
+    color: #ff5555; /* colors.normal.red */
 }
 
 #window,
 #clock,
-#pulseaudio,
+#wireplumber,
+#mpris,
+#network,
 #cpu,
 #memory,
-#tray {
+#idle_inhibitor,
+#tray,
+#custom-power {
     padding: 0 10px;
 }
 
 #clock {
-    font-weight: bold;
+    color: #ff79c6; /* colors.normal.magenta */
+}
+
+#mpris {
+    color: #50fa7b; /* colors.normal.green */
+}
+
+#mpris.paused {
+    color: #6272a4; /* colors.bright.black */
+}
+
+#wireplumber {
+    color: #8be9fd; /* colors.normal.cyan */
+}
+
+#wireplumber.muted {
+    color: #ff5555; /* colors.normal.red */
+}
+
+#network {
+    color: #f1fa8c; /* colors.normal.yellow */
+}
+
+#network.disconnected {
+    color: #ff5555; /* colors.normal.red */
+}
+
+#cpu,
+#memory {
+    color: #f8f8f2; /* colors.primary.foreground */
+}
+
+#idle_inhibitor {
+    color: #6272a4; /* colors.bright.black */
+}
+
+#idle_inhibitor.activated {
+    color: #f1fa8c; /* colors.normal.yellow */
+}
+
+#custom-power {
+    color: #ff5555; /* colors.normal.red */
+}
+
+#custom-power:hover {
+    color: #ff6e6e; /* colors.bright.red */
+}
+
+/* Tray right-click context menu (GtkMenu via libdbusmenu-gtk3) -- it's a
+   separate top-level window, but waybar registers style.css as an
+   application-wide CSS provider, so plain GTK menu selectors reach it too. */
+
+menu {
+    background-color: rgba(40, 42, 54, 0.92); /* colors.primary.background, matches window#waybar's raised opacity */
+    color: #f8f8f2; /* colors.primary.foreground */
+    border: 1px solid #ffffff; /* matches Hyprland's general:col.active_border default */
+    border-radius: 12px; /* matches Hyprland's decoration.rounding */
+    padding: 4px;
+}
+
+menu separator {
+    background-color: #44475a; /* colors.selection.background */
+    margin: 4px 0;
+}
+
+menuitem {
+    padding: 4px 10px;
+    border-radius: 4px;
+    color: #f8f8f2; /* colors.primary.foreground */
+}
+
+menuitem:hover {
+    background-color: #44475a; /* colors.selection.background */
+    color: #bd93f9; /* colors.normal.blue */
 }
