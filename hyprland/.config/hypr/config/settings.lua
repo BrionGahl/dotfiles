@@ -11,6 +11,11 @@ hl.config({
         },
     },
 
+    general = {
+        gaps_in = 5,
+        gaps_out = 15,
+    },
+
     input = {
         kb_layout = "us",
     },
