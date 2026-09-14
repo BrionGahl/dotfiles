@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# JSON source for waybar's custom/window module. Streams window title/class
+# for the monitor this bar instance lives on ($WAYBAR_OUTPUT_NAME), reacting
+# to Hyprland's event socket instead of polling. Prints an empty line when
+# this monitor has no windows or no title yet, so hide-empty-text collapses
+# the module instead of showing an empty pill.
+set -uo pipefail
+
+sock_dir="${XDG_RUNTIME_DIR}/hypr/${HYPRLAND_INSTANCE_SIGNATURE}"
+output="${WAYBAR_OUTPUT_NAME:-}"
+
+emit() {
+    local workspace_id client_json
+
+    workspace_id=$(hyprctl monitors -j | jq -r --arg name "$output" '
+        (if $name == "" then .[0] else (map(select(.name == $name)) | .[0]) end).activeWorkspace.id // empty
+    ')
+
+    if [ -z "$workspace_id" ]; then
+        printf '\n'
+        return
+    fi
+
+    client_json=$(hyprctl clients -j | jq -c --argjson ws "$workspace_id" '
+        [.[] | select(.workspace.id == $ws)] | sort_by(.focusHistoryID) | .[0]
+    ')
+
+    if [ -z "$client_json" ] || [ "$client_json" = "null" ]; then
+        printf '\n'
+        return
+    fi
+
+    jq -cn --argjson c "$client_json" '{text: $c.title, tooltip: $c.title}'
+}
+
+emit
+
+socat -U - UNIX-CONNECT:"${sock_dir}/.socket2.sock" | while read -r _line; do
+    emit || break
+done

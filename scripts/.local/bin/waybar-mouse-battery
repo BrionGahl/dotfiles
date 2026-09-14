@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# JSON source for waybar's custom/mouse-battery module. Pulls battery state
+# from razer-cli for a wireless Razer mouse (charge %, charging status).
+set -uo pipefail
+
+output=$(razer-cli --battery print 2>/dev/null)
+
+device=$(head -n1 <<< "$output" | sed -E 's/ battery:$//')
+charge=$(grep -oP 'charge: \K[0-9]+' <<< "$output")
+charging=$(grep -oP 'charging: \K\w+' <<< "$output")
+
+if [ -z "$charge" ]; then
+    printf '{"text":"--","tooltip":"Mouse battery unavailable (device off or disconnected)","class":"disconnected"}\n'
+    exit 0
+fi
+
+if [ "$charging" = "True" ]; then
+    class="charging"
+    status="Charging"
+elif [ "$charge" -le 15 ]; then
+    class="critical"
+    status="Not charging"
+elif [ "$charge" -le 30 ]; then
+    class="low"
+    status="Not charging"
+else
+    class="normal"
+    status="Not charging"
+fi
+
+tooltip="${device}\nCharge: ${charge}%\nStatus: ${status}"
+
+printf '{"text":"%s%%","tooltip":"%s","class":"%s"}\n' "$charge" "$tooltip" "$class"

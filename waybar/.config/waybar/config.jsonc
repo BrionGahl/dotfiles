@@ -5,7 +5,7 @@
     "spacing": 0,
     "margin": "6px 10px 0 10px",
 
-    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-left": ["hyprland/workspaces", "custom/window"],
     "modules-center": ["clock", "mpris"],
     "modules-right": [
         "tray",
@@ -13,6 +13,7 @@
         "network",
         "cpu",
         "memory",
+        "custom/mouse-battery",
         "custom/updates",
         "group/audio",
         "pulseaudio#microphone",
@@ -34,9 +35,13 @@
         "on-click": "activate"
     },
 
-    "hyprland/window": {
+    "custom/window": {
+        "exec": "waybar-window-title",
+        "return-type": "json",
+        "hide-empty-text": true,
+        "restart-interval": 5,
         "max-length": 60,
-        "separate-outputs": true
+        "tooltip": true
     },
 
     "clock": {
@@ -116,6 +121,15 @@
         "format": "<span font='Material Symbols Outlined'>memory</span> {percentage}% / {swapPercentage}%",
         "interval": 5,
         "tooltip-format": "RAM {used:0.1f}GiB / {total:0.1f}GiB\nSwap {swapUsed:0.1f}GiB / {swapTotal:0.1f}GiB"
+    },
+
+    "custom/mouse-battery": {
+        "format": "<span font='Material Symbols Outlined'>mouse</span> {}",
+        "escape": true,
+        "return-type": "json",
+        "exec": "waybar-mouse-battery",
+        "interval": 60,
+        "tooltip": true
     },
 
     "custom/updates": {

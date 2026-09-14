@@ -22,6 +22,7 @@ window#waybar {
 #network:hover,
 #pulseaudio:hover,
 #pulseaudio.microphone:hover,
+#custom-mouse-battery:hover,
 #custom-updates:hover,
 #custom-power:hover {
     opacity: 0.8;
@@ -65,12 +66,13 @@ window#waybar {
 /* ======================= */
 /* System Components       */
 /* ======================= */
-#window,
+#custom-window,
 #clock,
 #mpris,
 #network,
 #cpu,
 #memory,
+#custom-mouse-battery,
 #custom-updates,
 #pulseaudio,
 #pulseaudio.microphone,
@@ -86,7 +88,7 @@ window#waybar {
     min-height: 30px;
 }
 
-#window {
+#custom-window {
     color: @color8; /* bright.black */
 }
 
@@ -139,6 +141,29 @@ window#waybar {
 #cpu,
 #memory {
     color: @foreground;
+}
+
+/* ======================= */
+/* Mouse Battery           */
+/* ======================= */
+#custom-mouse-battery.normal {
+    color: @foreground;
+}
+
+#custom-mouse-battery.charging {
+    color: @color2; /* normal.green */
+}
+
+#custom-mouse-battery.low {
+    color: @color3; /* normal.yellow */
+}
+
+#custom-mouse-battery.critical {
+    color: @color1; /* normal.red */
+}
+
+#custom-mouse-battery.disconnected {
+    color: @color8; /* bright.black */
 }
 
 #custom-updates.green {
